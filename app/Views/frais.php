@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 session_start();
 include_once ("fonction-frais.php");
 include_once ("config-frais.php");
@@ -52,13 +51,11 @@ include_once('config-historique.php');
                 // }
         }
     }
-=======
 
     echo "<script type=\"text/javascript\">window.alert ('Veuillez remplir les champs'); 
     window.location='/Front/FicheFrais2'; </script>";     
                    
                 
         
->>>>>>> 75e310df5960730fc19d26ef300d1ee9355178b9
 
 ?>
