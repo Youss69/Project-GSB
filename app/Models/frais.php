@@ -2,7 +2,7 @@
 session_start();
 include_once ("fonction-frais.php");
 include_once ("config-frais.php");
-
+include_once('config-historique.php');
     
     if (isset($_SESSION['idd'])) {
 
@@ -38,17 +38,17 @@ include_once ("config-frais.php");
                     $insérer = $frais->prepare('INSERT INTO fichefrais (nbr_km, cout_km, restauration, hotel, evenementiel,
                     id_authentification	) VALUES (? , ? , ? , ? , ?, ?)');
 
-                $resql = $insérer->execute(array($nombre_km, $coutkm, $restau, $htl, $event, $numéro_id));
-                var_dump($insérer->errorInfo());
+                // $resql = $insérer->execute(array($nombre_km, $coutkm, $restau, $htl, $event, $numéro_id));
+                // var_dump($insérer->errorInfo());
 
-                echo "Données retourné";
-                header('Location: http://localhost:3000/app/Views/FicheFrais2.php');
+                // echo "Données retourné";
+                // header('C:\wamp64\www\BTS2SIO_ALT\Projet_GSB_Git\app\Views\historique.php');
                 }
 
-                else{
-                    echo 'Erreur';
-                    header('Location: http://localhost:3000/app/Views/FicheFrais2.php');
-                }
+                // else{
+                //     echo 'Erreur';
+                //     header('Location: http://localhost:3000/app/Views/FicheFrais2.php');
+                // }
         }
     }
 

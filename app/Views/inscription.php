@@ -7,6 +7,8 @@
 $_SESSION['nom'] = "Bonal";
 $_SESSION['prenom'] = "Côme"; */
 ?>
+<?php include "menu.php"; ?> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
