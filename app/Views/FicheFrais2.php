@@ -241,7 +241,7 @@ else {
                         
                     <!-- Formulaire de la fiche de frais -->
 					
-                    <form action ="<?php echo base_url("Back/frais")?>" method="POST">
+                    <form action ="<?php echo base_url("Front/noteDeFrais")?>" method="POST">
                         <label for="nbr_km"> Nombre de kilomètre </label><br>
                         <input type="text" name="nbr_km">
 >>>>>>> 75e310df5960730fc19d26ef300d1ee9355178b9
