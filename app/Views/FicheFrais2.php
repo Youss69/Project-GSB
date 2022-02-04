@@ -1,12 +1,12 @@
 <?php
-session_start();
-/* if (empty($_POST['identifiant-co'])) {
+/*if (empty($_POST['identifiant-co'])) {
     $_SESSION['connecté'] = FALSE;
 } */
 
 ?>
 
 <div class="message">
+<<<<<<< HEAD
 	<?php
 	if (isset($_SESSION['idd'])) {
 		if ($_SESSION['connecté'] == TRUE) {
@@ -19,6 +19,17 @@ session_start();
 	}
 	?>
 	
+=======
+<?php
+if ($user_idd && $connected == TRUE) {
+        echo('Bonjour ' .  $user_idd . ' ,Bienvenue !  ');
+}
+else {
+    echo'Bonjour, vous n\'etes pas connecté';
+    
+}
+?>
+>>>>>>> 75e310df5960730fc19d26ef300d1ee9355178b9
 </div>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
 
@@ -221,8 +232,19 @@ session_start();
 	</style>
 
 <div class="container">
+<<<<<<< HEAD
 		<div class="screen">
 			<div class="screen__content">
+=======
+	<div class="screen">
+		        <div class="screen__content">
+                        
+                    <!-- Formulaire de la fiche de frais -->
+					
+                    <form action ="<?php echo base_url("Back/frais")?>" method="POST">
+                        <label for="nbr_km"> Nombre de kilomètre </label><br>
+                        <input type="text" name="nbr_km">
+>>>>>>> 75e310df5960730fc19d26ef300d1ee9355178b9
 
 				<!-- Formulaire de la fiche de frais -->
 				<form action="http://localhost:3000/app/Models/frais.php" method="POST">
@@ -285,6 +307,22 @@ session_start();
                     	</form>
 >>>>>>> 9ce299d1fbb36188c7c1c241b1d516a5c18cb84a
 
+<<<<<<< HEAD
+=======
+                    <form action="<?php echo base_url("Front/index")?>" method="POST">                  
+                        <input class="login__submit" type="submit" value="Connexion">	
+                    </form>		
+                    
+            </div>
+        <!-- Définition des arrières plan superposés-->
+		<div class="screen__background"> 
+			<span class="screen__background__shape screen__background__shape4"></span>
+			<span class="screen__background__shape screen__background__shape3"></span>		
+			<span class="screen__background__shape screen__background__shape2"></span>
+			<span class="screen__background__shape screen__background__shape1"></span>
+		</div>		
+	
+>>>>>>> 75e310df5960730fc19d26ef300d1ee9355178b9
 </body>
 
 </html>
