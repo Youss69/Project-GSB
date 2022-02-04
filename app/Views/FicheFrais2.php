@@ -241,6 +241,7 @@ session_start();
 					<br>
 					<br>
 
+<<<<<<< HEAD
 					<label for="hotel"> Hôtel</label><br>
 					<input type="text" name="hôtel">
 
@@ -270,6 +271,19 @@ session_start();
 				<span class="screen__background__shape screen__background__shape2"></span>
 				<span class="screen__background__shape screen__background__shape1"></span>
 			</div>
+=======
+                        <label for="evenementiel"> Evènementiel</label><br>
+                        <input type="text" name="Evènementiel">   
+                        <br><br>     
+                        						
+                        <input class="login__submit" type="submit" value="Envoyer"> </input>
+					</form>
+                        
+                        <form action="<?php echo base_url("Front/deconnection")?>">
+				        <input class="login__submit" type="submit" value="Deconnexion">
+                        </input>
+                    	</form>
+>>>>>>> 9ce299d1fbb36188c7c1c241b1d516a5c18cb84a
 
 </body>
 
