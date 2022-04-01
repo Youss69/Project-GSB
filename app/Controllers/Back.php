@@ -28,35 +28,47 @@ class Back extends BaseController
             # Assimilation de données aux variables de sessions
             $_SESSION['idd'] = $X;
             
+            $q = $var_recup->prepare('SELECT * FROM authentification WHERE identifiant = :identifiant');
+            $q->bindValue('identifiant', $X);
+            $q->execute();
+            $res = $q->fetch();
+
+            //var_dump($res);
+           
+
 
 
 
             if (!empty($_POST['identifiant-co'] && $_POST['mdp-co'])) {
+                if($res) {
+                    $passwordHash = $res['motDePasse'];
+                
                 foreach ($données_verif as $données_verif) {
-                    
 
-                    /* if ($données_verif['identifiant'] === $X &&
-                $données_verif['motDePasse'] === $Y) {
-                    header('location:index.php'); 
-                } */
-                if ($recup_user->rowCount() > 0) {
-                        $_SESSION['connecté'] = TRUE;
-                        return redirect()->to("/Front/FicheFrais2");
-                    #header('location: http://localhost:3000/app/Views/FicheFrais2.php');   
-                } 
-                else {
-                    #header('location:page-inscription.php');
-                    echo "<script type=\"text/javascript\">window.alert ('Identifiant et/ou Mot de passe incorrect'); 
-                    window.location='../index.php'; </script>";
-                    $_SESSION['connecté'] = FALSE;
-                } 
+                            if (password_verify($Y, $passwordHash)) {
+                                    $_SESSION['connecté'] = TRUE;
+                                    return redirect()->to("/Front/FicheFrais2");
+                                #header('location: http://localhost:3000/app/Views/FicheFrais2.php');   
+                            } 
+                            else {
+                                #header('location:page-inscription.php');
+                                echo "<script type=\"text/javascript\">window.alert ('Identifiant et/ou Mot de passe incorrect'); 
+                                window.location='../index.php'; </script>";
+                                $_SESSION['connecté'] = FALSE;
+                            } 
                 }
             }
-                    else {
-                        return view("confirmation-connexion.php");
-                        }
+            else {
+                echo "<script type=\"text/javascript\">window.alert ('Identifiant et/ou Mot de passe incorrect'); 
+                window.location='../index.php'; </script>";
+                $_SESSION['connecté'] = FALSE;
+            }
 
-    } 
+            } 
+            else {
+                return view("confirmation-connexion.php");
+                }
+            }
 
     public function pageInscription() {
                     #if (empty($nom_utilisateur)) {
@@ -65,6 +77,10 @@ class Back extends BaseController
             $mail_utilisateur = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
             $identifiant_utilisateur = filter_var($_POST['identifiant'], FILTER_SANITIZE_STRING);
             $mdp_utilisateur = filter_var($_POST['mdp'], FILTER_SANITIZE_STRING);
+
+            // hachage du mot de passe
+            $mdp_utilisateur = password_hash($mdp_utilisateur, PASSWORD_DEFAULT);
+
             include "../app/Views/fonction-page-accueil.php";
 
             include "../app/Views/config-page-accueil.php";
