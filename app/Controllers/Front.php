@@ -19,12 +19,15 @@ class Front extends BaseController
 
     public function FicheFrais2() {
         $session = session(); // Cette syntaxe remplace session_start();
-        $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"));
+        $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
+        'categorie' => $session->get("categorie_utilisateur"));
+        
         /* 'user_idd' est modulable : on le nomme comme on veut, c'est le nom de la variable dans FicheFrais2
         'user_idd' équivaudra à la variable $_SESSION_['idd'], car on a préciser dans la suite de la syntaxe 
         $session->get("idd")
         $connected lui équivaudra à $_SESSION['connecté']
         Les variables de sessions doivent être inité une seule et unique fois*/
+
         return view("FicheFrais2.php", $data);
     }
 

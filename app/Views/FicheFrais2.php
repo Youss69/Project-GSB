@@ -7,7 +7,9 @@
 <div class="message">
 <?php
 if ($user_idd && $connected == TRUE) {
-		echo('Bonjour ' .  $user_idd . ' ,Bienvenue !  ');
+		echo('Bonjour ' .  $user_idd . ' ,Bienvenue !  
+			<br> 
+			Votre rôle : <strong>' . $categorie . '</strong>');
 }
 else {
 			echo "<script type=\"text/javascript\">window.alert ('Vous êtes devez être connecté pour accéder à cette page'); 

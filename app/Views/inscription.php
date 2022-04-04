@@ -199,6 +199,9 @@ label {
        
        text-align: left;
    }
+   .select{
+	   margin-left: 5px;
+   }
         </style> 
  
 
@@ -215,13 +218,19 @@ label {
                         <input type="text" name="prenom" class="login__input"/>
 
                         <label>Adresse mail : </label>
-                        <input type="text" name="mail" class="login__input"/>
+                        <input type="email" name="mail" class="login__input"/>
 
                         <label>Identifiant : </label> <br>
                         <input type="text" name="identifiant" class="login__input"/> <br>
 
                         <label>Mot de passe : </label> <br>
-                        <input type="password" name="mdp" class="login__input"/>          
+                        <input type="password" name="mdp" class="login__input"/>     
+
+						<select class="login__submit select" name="categorie_utilisateur">
+							<option> Utilisateur
+							<option> Comptable
+							<option> Administrateur
+						</select>
 
 				        <input class="login__submit" type="submit" value="S'inscrire">
                         </input>

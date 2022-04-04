@@ -71,12 +71,16 @@ class Back extends BaseController
             }
 
     public function pageInscription() {
-                    #if (empty($nom_utilisateur)) {
+        $session = session();
+        
             $nom_utilisateur = filter_var($_POST['nom'], FILTER_SANITIZE_STRING);
             $prenom_utilisateur = filter_var($_POST['prenom'], FILTER_SANITIZE_STRING);
             $mail_utilisateur = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
             $identifiant_utilisateur = filter_var($_POST['identifiant'], FILTER_SANITIZE_STRING);
             $mdp_utilisateur = filter_var($_POST['mdp'], FILTER_SANITIZE_STRING);
+            $categorie_utilisateur = filter_var($_POST['categorie_utilisateur'], FILTER_SANITIZE_STRING);
+
+            $_SESSION['categorie_utilisateur'] = $categorie_utilisateur;
 
             // hachage du mot de passe
             $mdp_utilisateur = password_hash($mdp_utilisateur, PASSWORD_DEFAULT);
@@ -89,27 +93,57 @@ class Back extends BaseController
             $_SESSION['prenom'] = $prenom_utilisateur; */
 
             $connexion = GETPDO($config);
-            if (!empty($identifiant_utilisateur) and !empty($mdp_utilisateur)){
-                $recup_user = $connexion->query('SELECT * FROM authentification ');
-                $idUnique = $recup_user->fetchAll();
-                foreach ($idUnique as $i) {
-                    if ($i['identifiant'] === $identifiant_utilisateur) {
+                if (!empty($identifiant_utilisateur) AND !empty($mdp_utilisateur
+                AND !empty($nom_utilisateur) AND !empty($mail_utilisateur) AND !empty($prenom_utilisateur))){
+
+                    //  méthode 1 pour vérifier dans la bdd qu'un utilisateur ne porte pas le même identifiant 
+
+                    $recup_user = $connexion->prepare('SELECT * FROM authentification WHERE `identifiant` = :identifiant');
+                    $recup_user->bindValue('identifiant', $identifiant_utilisateur);
+                    $recup_user->execute();
+                    if ($recup_user->rowCount() != 0) {
                         return redirect()->to("/Front/erreurIdentifiant");
                     }
-                    
-                }
-            $insérer = $connexion->prepare('INSERT INTO authentification 
-            (nom, prenom, mail, identifiant, motDePasse) VALUES (? , ? , ? , ? , ?)');
 
-            $insérer->execute(array($nom_utilisateur, $prenom_utilisateur, $mail_utilisateur, 
-            $identifiant_utilisateur, $mdp_utilisateur));
-                    return redirect()->to("/Front/index");
-            }
-            else {
-                    return view("page-inscription.php");
-                }
-            }
+                    //  méthode 2 pour vérifier dans la bdd qu'un utilisateur ne porte pas le même identifiant 
 
+                    $recup_user = $connexion->query('SELECT * FROM authentification ');
+                    $idUnique = $recup_user->fetchAll();
+                    foreach ($idUnique as $i) {
+                        if ($i['identifiant'] === $identifiant_utilisateur) {
+                            return redirect()->to("/Front/erreurIdentifiant");
+                        }
+                        
+                    }
+                // Insertion au sein de la table authentification
+                
+                $insérer = $connexion->prepare('INSERT INTO authentification 
+                (identifiant, motDePasse, nom, prenom, mail, categorie_utilisateur) VALUES (? , ? , ? , ? , ?, ?)');
+
+                $insérer->execute(array($identifiant_utilisateur, $mdp_utilisateur, $nom_utilisateur, 
+                $prenom_utilisateur, $mail_utilisateur, $categorie_utilisateur));
+
+                // Insertion au sein de la table categorie_users
+
+                $insérer2 = $connexion->prepare('INSERT INTO categorie_users 
+                (categorie_utilisateur, id_authentification) VALUES (? , ?)');
+                
+                $req = $connexion->prepare("SELECT * FROM authentification WHERE identifiant=?");
+                $req->bindValue('identifiant', $identifiant_utilisateur);
+                $req->execute(array($identifiant_utilisateur));
+                $id_bdd = $req->fetch();
+
+                $insérer2->execute(array($categorie_utilisateur, $id_bdd['id']));
+
+                return redirect()->to("/Front/index/");
+                }
+                else {
+                        return view("page-inscription.php");
+                    }
+                
+    
+            }
+            
     public function frais() {
 
         $session = session();
