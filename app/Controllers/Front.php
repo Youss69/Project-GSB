@@ -20,7 +20,7 @@ class Front extends BaseController
     public function FicheFrais2() {
         $session = session(); // Cette syntaxe remplace session_start();
         $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
-        'categorie' => $session->get("categorie_utilisateur"));
+        'categorie'=> $session->get("categorie_utilisateur"));
         
         /* 'user_idd' est modulable : on le nomme comme on veut, c'est le nom de la variable dans FicheFrais2
         'user_idd' équivaudra à la variable $_SESSION_['idd'], car on a préciser dans la suite de la syntaxe 
@@ -33,8 +33,35 @@ class Front extends BaseController
 
     public function index() {
         $session = session();
-        $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"));
+        $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
+        'categorie' => $session->get("categorie_utilisateur"));
         return view("index.php", $data);
+    }
+
+    public function droit() {
+
+        $session = session();
+        //include_once ("../app/Views/fonction-frais.php");
+        //include_once ("../app/Views/config-frais.php");
+
+        include "../app/Views/fonction-page-accueil.php";
+        include "../app/Views/config-page-accueil.php";
+
+        // Première méthode via jointure interne
+        $reponse = GETPDO($config);
+
+        $req = $reponse->query("SELECT * FROM authentification");
+        $tableauFrais = $req->fetchAll();
+
+
+        $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
+        'categorie' => $session->get("categorie_utilisateur"), 'dataToDisplay' => $tableauFrais);
+        return view("gestionUsers.php", $data);
+    }
+
+    public function activation() {
+                                echo "<script type=\"text/javascript\">window.alert ('Votre compte n'a pas encore été activé'); 
+                    window.location='/Front/inscription'; </script>";
     }
 
     public function inscription() {

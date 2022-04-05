@@ -4,6 +4,34 @@ namespace App\Controllers;
 
 class Back extends BaseController
 {
+
+    public function Activation() {
+
+        $session = session();
+
+        include "../app/Views/fonction-page-accueil.php";
+        include "../app/Views/config-page-accueil.php";
+
+        $bd = GETPDO($config);
+        $suppresion=  $bd->prepare('UPDATE `authentification` SET `Activation3` = `1` WHERE `authentification`.`id` = :id');
+        $suppresion->bindValue(':id', $session->get("id_bdd"));
+        $suppresion->execute();
+    }
+
+
+    public function Supprimer() {
+
+        $session = session();
+
+        include "../app/Views/fonction-page-accueil.php";
+        include "../app/Views/config-page-accueil.php";
+
+        $bd = GETPDO($config);
+        $suppresion=  $bd->prepare('DELETE FROM fichefrais WHERE `fichefrais`.`id` = :id');
+        $suppresion->bindValue(':id', $session->get("id_fichefrais"));
+        $suppresion->execute();
+    }
+
     public function confirmationConnexion() {
 
         
@@ -24,6 +52,7 @@ class Back extends BaseController
             $Y = filter_var($_POST['mdp-co'], FILTER_SANITIZE_STRING);
             $recup_user = $var_recup->prepare('SELECT * FROM authentification WHERE identifiant = ? AND motDePasse = ? ');
             $recup_user->execute(array($X, $Y)); 
+            
 
             # Assimilation de données aux variables de sessions
             $_SESSION['idd'] = $X;
@@ -36,7 +65,11 @@ class Back extends BaseController
             //var_dump($res);
            
 
-
+            $recup_user2 = $var_recup->prepare('SELECT * FROM authentification WHERE `identifiant` = :identifiant');
+            $recup_user2->bindValue('identifiant', $X);
+            $recup_user2->execute();
+            $ftch=$recup_user2->fetch();
+            $_SESSION['categorie_utilisateur'] = $ftch['categorie_utilisateur'];
 
 
             if (!empty($_POST['identifiant-co'] && $_POST['mdp-co'])) {
@@ -46,9 +79,22 @@ class Back extends BaseController
                 foreach ($données_verif as $données_verif) {
 
                             if (password_verify($Y, $passwordHash)) {
+                                $fetch_activation= $recup_user->fetch();
+
+                                 $res['Activation3'] = isset($res['Activation3']) ? $res['Activation3'] 
+                                 : 0;
+
+                                if ($res['Activation3'] == 1) {
                                     $_SESSION['connecté'] = TRUE;
                                     return redirect()->to("/Front/FicheFrais2");
-                                #header('location: http://localhost:3000/app/Views/FicheFrais2.php');   
+                                #header('location: http://localhost:3000/app/Views/FicheFrais2.php'); 
+                                }
+                                else {
+                                    echo "<script type=\"text/javascript\">window.alert ('Votre compte n'est pas active'); 
+                                        window.location='../index.php'; </script>";
+                                }
+                                
+                                      
                             } 
                             else {
                                 #header('location:page-inscription.php');

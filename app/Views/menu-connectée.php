@@ -71,5 +71,6 @@
                 #$session = session();
                 #$data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté")); ?>
 				<a href="/Front/FicheFrais2">Fiche de Frais <?php # $data ?> </a></br><br></br>
-				<a href="/Front/noteDeFrais">Historique</a>
+				<a href="/Front/noteDeFrais">Historique</a>					</br><br></br>
+				<a href="/Front/droit">Gestion accès</a>
 			</div>
