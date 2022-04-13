@@ -47,15 +47,17 @@ class Front extends BaseController
         include "../app/Views/fonction-page-accueil.php";
         include "../app/Views/config-page-accueil.php";
 
-        // Première méthode via jointure interne
         $reponse = GETPDO($config);
 
         $req = $reponse->query("SELECT * FROM authentification");
         $tableauFrais = $req->fetchAll();
 
+        $req2 = $reponse->query("SELECT id FROM authentification");
+        $tableauFrais2 = $req2->fetchAll();
 
         $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
-        'categorie' => $session->get("categorie_utilisateur"), 'dataToDisplay' => $tableauFrais);
+        'categorie' => $session->get("categorie_utilisateur"), 'dataToDisplay' => $tableauFrais , 
+        'dataToDisplay2' => $tableauFrais2);
         return view("gestionUsers.php", $data);
     }
 
@@ -85,7 +87,7 @@ class Front extends BaseController
         // Première méthode via jointure interne
         $reponse = GETPDO($config);
 
-        $req = $reponse->prepare("SELECT f.nbr_km, f.cout_km, f.restauration, f.hotel, f.evenementiel 
+        $req = $reponse->prepare("SELECT f.id, f.nbr_km, f.cout_km, f.restauration, f.hotel, f.evenementiel 
         from fichefrais f inner join authentification a on f.id_authentification = a.id
         WHERE a.identifiant =:id");
         $req->bindValue(':id', $session->get("idd"));

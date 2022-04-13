@@ -67,18 +67,18 @@ if ($connected == FALSE) {
                                 <th>Supprimer</th>
                             </tr>
     <?php        
-
+                $_SESSION['fichefrais'] = [];
                 $compteur = 1;
                     foreach ($dataToDisplay as $fetch20) {
                         ?>
                             <tr>
-                              <td> <?php echo $compteur; ?> </td>
+                              <td> <?php echo $compteur; ?> </td> <?php $_SESSION['fichefrais'][$compteur] = $fetch20['id']; ?>
                                 <td><?php echo $fetch20['nbr_km']; ?></td>
                                 <td><?php echo $fetch20['cout_km']; ?></td>
                                 <td><?php echo $fetch20['restauration']; ?></td>
                                 <td><?php echo $fetch20['hotel']; ?></td>
                                 <td><?php echo $fetch20['evenementiel']; ?></td>
-                                <td><a href=<?php echo base_url("Back/Supprimer"); ?>>Supprimer</a></td>
+                                <td><a href=<?php echo base_url("Back/Supprimer/$compteur"); ?>>Supprimer</a></td>
                             </tr>
                             
                         <?php $compteur = $compteur + 1;

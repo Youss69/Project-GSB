@@ -5,31 +5,44 @@ namespace App\Controllers;
 class Back extends BaseController
 {
 
-    public function Activation() {
-
-        $session = session();
-
+    public function Activation($idTableau) {
         include "../app/Views/fonction-page-accueil.php";
         include "../app/Views/config-page-accueil.php";
-
+        $session = session();
+        if ($_SESSION['activé'][$idTableau] == TRUE) {
+        
+        $insert = $_SESSION['id_bdd'][$idTableau];
         $bd = GETPDO($config);
-        $suppresion=  $bd->prepare('UPDATE `authentification` SET `Activation3` = `1` WHERE `authentification`.`id` = :id');
-        $suppresion->bindValue(':id', $session->get("id_bdd"));
-        $suppresion->execute();
+        $activation=  $bd->prepare('UPDATE `authentification` SET `Activation3` = "1" WHERE `authentification`.`id` = :id');
+        $activation->bindValue(':id', $insert);
+        $activation->execute();
+        return redirect()->to("/Front/droit");
+        }
+        else {
+            $insert = $_SESSION['id_bdd'][$idTableau];
+            $bd = GETPDO($config);
+            $activation=  $bd->prepare('UPDATE `authentification` SET `Activation3` = "0" WHERE `authentification`.`id` = :id');
+            $activation->bindValue(':id', $insert);
+            $activation->execute();
+            return redirect()->to("/Front/droit");
+        }
+        
     }
 
 
-    public function Supprimer() {
+    public function Supprimer($idFicheFrais) {
 
         $session = session();
+        $insert = $_SESSION['fichefrais'][$idFicheFrais];
 
         include "../app/Views/fonction-page-accueil.php";
         include "../app/Views/config-page-accueil.php";
 
         $bd = GETPDO($config);
         $suppresion=  $bd->prepare('DELETE FROM fichefrais WHERE `fichefrais`.`id` = :id');
-        $suppresion->bindValue(':id', $session->get("id_fichefrais"));
+        $suppresion->bindValue(':id', $insert);
         $suppresion->execute();
+        return redirect()->to("/Front/noteDeFrais");
     }
 
     public function confirmationConnexion() {
@@ -91,7 +104,7 @@ class Back extends BaseController
                                 }
                                 else {
                                     echo "<script type=\"text/javascript\">window.alert ('Votre compte n'est pas active'); 
-                                        window.location='../index.php'; </script>";
+                                        window.location='../index.php'; </sc>";
                                 }
                                 
                                       

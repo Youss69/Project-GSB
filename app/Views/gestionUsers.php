@@ -1,6 +1,6 @@
 <?php
 $session = session();
-        
+$_SESSION['id_bdd'] = 0;
 if ($connected == FALSE) {
   echo "<script type=\"text/javascript\">window.alert ('Vous devez être connecté pour accéder à cette page'); 
   window.location='/Front/index'; </script>";
@@ -24,8 +24,9 @@ else if ($categorie != 'Administrateur') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<?php include "menu-connectée.php"; ?>
 <body>
-<?php include "menu-connectée.php"; ?> 
+
 
 <style>
 
@@ -64,8 +65,8 @@ else if ($categorie != 'Administrateur') {
 </style>
                         <table class="Liam">
                             <tr>
-                            <th>ID BDD</th>
-                            <th>Numéro Factures</th>
+                            <th>Compteur</th>
+                            
 
                                 <th>Nom</th>
                                 <th>Prénom</th>
@@ -77,33 +78,48 @@ else if ($categorie != 'Administrateur') {
                             </tr>
      
     <?php         
-    
-                
+                $_SESSION['id_bdd'] = [];
                 $compteur = 1;
+
                     foreach ($dataToDisplay as $fetch20) {
                         ?> 
                             <tr>
-
-                          <?php //$_SESSION['id_bdd'] = $dataToDisplay[$fetch20['id']];
-                          ?>
-                                <td><?php echo $fetch20['id']; ?></td>
-                              <td> <?php echo $compteur; ?> </td>
-                              
+                                <?php $_SESSION['id_bdd'][$compteur] =  intval($fetch20['id']); ?>
+                                <td><?php echo $compteur; ?>
                                 <td><?php echo $fetch20['nom']; ?></td>
                                 <td><?php echo $fetch20['prenom']; ?></td>
                                 <td><?php echo $fetch20['mail']; ?></td>
                                 <td><?php echo $fetch20['categorie_utilisateur']; ?></td>
                                 <td><?php echo $fetch20['Activation3']; ?></td>
-                                <td><a href=<?php echo base_url("Back/Activation"); ?>>Activer</a></td>
+                                <td>   
+                                <?php switch ($fetch20['Activation3']) {
+                                  case 0: 
+                                  $_SESSION['activé'][$compteur] = TRUE; ?>
+                                    <a id="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Activer</a>
+                                    
+                                  <?php break;
+                                  
+                                  case 1: 
+                                  $_SESSION['activé'][$compteur] = FALSE;?>
+                                    <a id="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Désactiver</a>
+                                   <?php break; 
+                                }                                             ?>                                     
+                                
+                              </td>
                             </tr>
                             
-                        <?php $compteur = $compteur + 1;
+                        <?php 
+                  
+                        $compteur = $compteur + 1;
                        
                         }
                 ?>
                 </table>
-
+<?php 
+//print_r($idBDD);
+?>
           
-                    
+
+
 </body>
 </html>
