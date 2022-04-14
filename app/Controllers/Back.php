@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 class Back extends BaseController
 {
-<<<<<<< HEAD
     public function Verif() {
         $session = session();
 
@@ -27,13 +26,12 @@ class Back extends BaseController
         else {
             return redirect()->to("/Front/inscription");
         }
-=======
+    }
     function CompteNonActif() {
         echo "<script> 
         window.alert ('Votre compte n'est pas active'); 
         window.location='../index.php'; </sc>";
 
->>>>>>> af4c5da0a52db4736f33e8d9507a776024f68900
 
     }
     public function Activation($idTableau) {
