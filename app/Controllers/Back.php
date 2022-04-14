@@ -221,7 +221,16 @@ class Back extends BaseController
                 $id_bdd = $req->fetch();
 
                 $insérer2->execute(array($categorie_utilisateur, $id_bdd['id']));
-
+                
+                $req_admin = $connexion->prepare("SELECT mail FROM authentification WHERE categorie_utilisateur = Administrateur");
+                $to = $req_admin->fetchAll();
+                $subject = "Code de validation nouvelle inscription";
+                $message = "Bonjour, " .  $identifiant_utilisateur . " s'est récemment inscrit, veuillez lui fournir son code de vérification : " . $random;
+                mail(
+                    $to,
+                    $subject,
+                    $message,
+                );
                 return redirect()->to("/Front/code_validation/");
                 }
                 else {
