@@ -9,7 +9,28 @@
 					font-family: "Lato", sans-serif;
 					
 				}
+				#activé{
+					color: green;
+				}
 
+				#désactivé{
+					color: red;
+				}
+				a {
+					text-decoration: none;
+				}
+
+				a:hover {
+				
+  				text-decoration: underline;
+				}
+				/* a:visited {
+				color: #000000;
+				} */
+				#one:active {
+				background-color: white;
+				color: #00000;
+				} 
 				.sidenav {
 					height: 100%;
 					width: 200px;
@@ -70,7 +91,7 @@
                 <?php 
                 #$session = session();
                 #$data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté")); ?>
-				<a href="/Front/FicheFrais2">Fiche de Frais <?php # $data ?> </a></br><br></br>
-				<a href="/Front/noteDeFrais">Historique</a>					</br><br></br>
-				<a href="/Front/droit">Gestion accès</a>
+				<a id="one"href="/Front/FicheFrais2">Fiche de Frais <?php # $data ?> </a></br><br></br>
+				<a id="one"href="/Front/noteDeFrais">Historique</a>					</br><br></br>
+				<a id="one"href="/Front/droit">Gestion accès</a>
 			</div>

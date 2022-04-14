@@ -95,13 +95,13 @@ else if ($categorie != 'Administrateur') {
                                 <?php switch ($fetch20['Activation3']) {
                                   case 0: 
                                   $_SESSION['activé'][$compteur] = TRUE; ?>
-                                    <a id="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Activer</a>
+                                    <a id="activé" name="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Activer</a>
                                     
                                   <?php break;
                                   
                                   case 1: 
                                   $_SESSION['activé'][$compteur] = FALSE;?>
-                                    <a id="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Désactiver</a>
+                                    <a id="désactivé" name="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Désactiver</a>
                                    <?php break; 
                                 }                                             ?>                                     
                                 

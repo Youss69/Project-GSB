@@ -78,7 +78,7 @@ if ($connected == FALSE) {
                                 <td><?php echo $fetch20['restauration']; ?></td>
                                 <td><?php echo $fetch20['hotel']; ?></td>
                                 <td><?php echo $fetch20['evenementiel']; ?></td>
-                                <td><a href=<?php echo base_url("Back/Supprimer/$compteur"); ?>>Supprimer</a></td>
+                                <td><a id="désactivé" href=<?php echo base_url("Back/Supprimer/$compteur"); ?>>Supprimer</a></td>
                             </tr>
                             
                         <?php $compteur = $compteur + 1;
