@@ -4,7 +4,13 @@ namespace App\Controllers;
 
 class Back extends BaseController
 {
+    function CompteNonActif() {
+        echo "<script> 
+        window.alert ('Votre compte n'est pas active'); 
+        window.location='../index.php'; </sc>";
 
+
+    }
     public function Activation($idTableau) {
         include "../app/Views/fonction-page-accueil.php";
         include "../app/Views/config-page-accueil.php";
@@ -103,8 +109,8 @@ class Back extends BaseController
                                 #header('location: http://localhost:3000/app/Views/FicheFrais2.php'); 
                                 }
                                 else {
-                                    echo "<script type=\"text/javascript\">window.alert ('Votre compte n'est pas active'); 
-                                        window.location='../index.php'; </sc>";
+                                    return redirect()->to("/Back/CompteNonActif");
+                                   
                                 }
                                 
                                       

@@ -84,7 +84,7 @@ else if ($categorie != 'Administrateur') {
                     foreach ($dataToDisplay as $fetch20) {
                         ?> 
                             <tr>
-                                <?php $_SESSION['id_bdd'][$compteur] =  intval($fetch20['id']); ?>
+                                <?php $_SESSION['id_bdd'][$compteur] =  intval($fetch20['id']); ?> 
                                 <td><?php echo $compteur; ?>
                                 <td><?php echo $fetch20['nom']; ?></td>
                                 <td><?php echo $fetch20['prenom']; ?></td>
@@ -92,7 +92,8 @@ else if ($categorie != 'Administrateur') {
                                 <td><?php echo $fetch20['categorie_utilisateur']; ?></td>
                                 <td><?php echo $fetch20['Activation3']; ?></td>
                                 <td>   
-                                <?php switch ($fetch20['Activation3']) {
+                                <?php 
+                                switch ($fetch20['Activation3']) {
                                   case 0: 
                                   $_SESSION['activé'][$compteur] = TRUE; ?>
                                     <a id="activé" name="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Activer</a>
