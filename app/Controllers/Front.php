@@ -52,12 +52,10 @@ class Front extends BaseController
         $req = $reponse->query("SELECT * FROM authentification");
         $tableauFrais = $req->fetchAll();
 
-        $req2 = $reponse->query("SELECT id FROM authentification");
-        $tableauFrais2 = $req2->fetchAll();
+      
 
         $data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
-        'categorie' => $session->get("categorie_utilisateur"), 'dataToDisplay' => $tableauFrais , 
-        'dataToDisplay2' => $tableauFrais2);
+        'categorie' => $session->get("categorie_utilisateur"), 'dataToDisplay' => $tableauFrais);
         return view("gestionUsers.php", $data);
         
     }
@@ -126,7 +124,8 @@ class Front extends BaseController
             } 
             $dataToDisplay2 = $tableauFrais;
         $data = array('dataToDisplay' => $dataToDisplay2,
-         'user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"));
+         'user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté"),
+         'categorie' => $session->get("categorie_utilisateur"));
         // $data est un tableau avec ('nomVariableDansFichierSuivant' => $variableDansFichierLocal);
         
 

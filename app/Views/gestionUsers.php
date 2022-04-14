@@ -134,15 +134,45 @@ include "fonction-code-validation.php";
 
   <?php
 
-  //print_r($idBDD);
-  ?>
-
-
-
-
-
-
-
+                    foreach ($dataToDisplay as $fetch20) {
+                        ?> 
+                            <tr>
+                                <?php $_SESSION['id_bdd'][$compteur] =  intval($fetch20['id']); ?> 
+                                <td><?php echo $compteur; ?>
+                                <td><?php echo $fetch20['nom']; ?></td>
+                                <td><?php echo $fetch20['prenom']; ?></td>
+                                <td><?php echo $fetch20['mail']; ?></td>
+                                <td><?php echo $fetch20['categorie_utilisateur']; ?></td>
+                                <td><?php echo $fetch20['Activation3']; ?></td>
+                                <td>   
+                                <?php 
+                                switch ($fetch20['Activation3']) {
+                                  case 0: 
+                                  $_SESSION['activé'][$compteur] = TRUE; ?>
+                                    <a id="activé" name="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Activer</a>
+                                    
+                                  <?php break;
+                                  
+                                  case 1: 
+                                  $_SESSION['activé'][$compteur] = FALSE;?>
+                                    <a id="désactivé" name="<?php echo $compteur;?>"href="<?php echo base_url("Back/Activation/$compteur"); ?>">Désactiver</a>
+                                   <?php break; 
+                                }                                             ?>                                     
+                                
+                              </td>
+                            </tr>
+                            
+                        <?php 
+                  
+                        $compteur = $compteur + 1;
+                       
+                        }
+                ?>
+                </table>
+<?php 
+//print_r($idBDD);
+?>
+          
 
 
 </body>
