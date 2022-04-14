@@ -7,7 +7,9 @@
 $_SESSION['nom'] = "Bonal";
 $_SESSION['prenom'] = "Côme"; */
 ?>
-<?php include "menu.php"; ?> 
+<?php include "menu.php"; 
+	include "fonction-code-validation.php"
+	?> 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -226,16 +228,16 @@ label {
                         <input type="text" name="identifiant" class="login__input"/> <br>
 
                         <label>Mot de passe : </label> <br>
-                        <input type="password" name="mdp" class="login__input"/>     
+                        <input actiontype="password" name="mdp" class="login__input"/>     
 
 						<select class="login__submit select" name="categorie_utilisateur">
 							<option> Utilisateur
 							<option> Comptable
 							<option> Administrateur
 						</select>
-
-				        <input class="login__submit" type="submit" value="S'inscrire">
-                        </input>
+   						
+				        <input class="login__submit" type="submit" value="S'inscrire"/>
+						
                     </form>
                     <!-- Formulaire d'inscription -->	
             </div>

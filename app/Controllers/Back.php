@@ -4,7 +4,30 @@ namespace App\Controllers;
 
 class Back extends BaseController
 {
+    public function Verif() {
+        $session = session();
 
+        include "../app/Views/fonction-page-accueil.php";
+        include "../app/Views/config-page-accueil.php";
+        $code_v = $_POST['codeV'];
+        $bd = GETPDO($config);
+        $code_a=  $bd->prepare('SELECT code FROM `authentification` WHERE `authentification`.`code` = ? AND 
+        `authentification`.`identifiant` = ?');
+        $code_a->execute(array($code_v, $_SESSION['identifiant']));
+        $fetch = $code_a->fetch();
+        if ($code_a->rowCount() == 1 && $fetch['code'] != 0) {
+            $delete = $bd->prepare('UPDATE `authentification` SET `code` = "0" WHERE `authentification`.`code` = :code');
+            $delete->bindValue(':code', $code_v);
+            $delete->execute();
+            $act = $bd->prepare('UPDATE `authentification` SET `Activation3` = "1" WHERE `authentification`.`identifiant` = ?');
+            $act->execute(array($_SESSION['identifiant']));
+            return redirect()->to("/Front/index");
+        }
+        else {
+            return redirect()->to("/Front/inscription");
+        }
+
+    }
     public function Activation($idTableau) {
         include "../app/Views/fonction-page-accueil.php";
         include "../app/Views/config-page-accueil.php";
@@ -131,15 +154,14 @@ class Back extends BaseController
 
     public function pageInscription() {
         $session = session();
-        
+
             $nom_utilisateur = filter_var($_POST['nom'], FILTER_SANITIZE_STRING);
             $prenom_utilisateur = filter_var($_POST['prenom'], FILTER_SANITIZE_STRING);
             $mail_utilisateur = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
             $identifiant_utilisateur = filter_var($_POST['identifiant'], FILTER_SANITIZE_STRING);
             $mdp_utilisateur = filter_var($_POST['mdp'], FILTER_SANITIZE_STRING);
             $categorie_utilisateur = filter_var($_POST['categorie_utilisateur'], FILTER_SANITIZE_STRING);
-
-            $_SESSION['categorie_utilisateur'] = $categorie_utilisateur;
+            $random = rand(100000,999999);
 
             // hachage du mot de passe
             $mdp_utilisateur = password_hash($mdp_utilisateur, PASSWORD_DEFAULT);
@@ -147,7 +169,7 @@ class Back extends BaseController
             include "../app/Views/fonction-page-accueil.php";
 
             include "../app/Views/config-page-accueil.php";
-
+            $_SESSION['identifiant'] = $identifiant_utilisateur;
             /* $_SESSION['nom'] = $nom_utilisateur;
             $_SESSION['prenom'] = $prenom_utilisateur; */
 
@@ -177,10 +199,10 @@ class Back extends BaseController
                 // Insertion au sein de la table authentification
                 
                 $insérer = $connexion->prepare('INSERT INTO authentification 
-                (identifiant, motDePasse, nom, prenom, mail, categorie_utilisateur) VALUES (? , ? , ? , ? , ?, ?)');
+                (identifiant, motDePasse, nom, prenom, mail, categorie_utilisateur, code) VALUES (? , ? , ? , ? , ?, ?, ?)');
 
                 $insérer->execute(array($identifiant_utilisateur, $mdp_utilisateur, $nom_utilisateur, 
-                $prenom_utilisateur, $mail_utilisateur, $categorie_utilisateur));
+                $prenom_utilisateur, $mail_utilisateur, $categorie_utilisateur, $random));
 
                 // Insertion au sein de la table categorie_users
 
@@ -194,7 +216,7 @@ class Back extends BaseController
 
                 $insérer2->execute(array($categorie_utilisateur, $id_bdd['id']));
 
-                return redirect()->to("/Front/index/");
+                return redirect()->to("/Front/code_validation/");
                 }
                 else {
                         return view("page-inscription.php");
@@ -229,7 +251,7 @@ class Back extends BaseController
                             
                             $numéro_id = $fetch['id'];
 
-                        }
+                            
                     }
 
                     $nombre_km = isset($_POST['nbr_km']) ?$_POST['nbr_km'] : null;
@@ -281,4 +303,5 @@ class Back extends BaseController
             }
 
 
+}
 }

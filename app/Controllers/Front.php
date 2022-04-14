@@ -59,6 +59,7 @@ class Front extends BaseController
         'categorie' => $session->get("categorie_utilisateur"), 'dataToDisplay' => $tableauFrais , 
         'dataToDisplay2' => $tableauFrais2);
         return view("gestionUsers.php", $data);
+        
     }
 
     public function activation() {
@@ -132,5 +133,10 @@ class Front extends BaseController
         return view("noteDeFrais.php",$data);
     }
 
+
+    public function code_validation(){
+        return view("code.php");
+
+    }
 
 }

@@ -29,7 +29,7 @@
 				} */
 				#one:active {
 				background-color: white;
-				color: #00000;
+				color: #000000;
 				} 
 				.sidenav {
 					height: 100%;

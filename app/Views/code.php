@@ -1,24 +1,20 @@
 <?php
-/*if (empty($_POST['identifiant-co'])) {
-    $_SESSION['connecté'] = FALSE;
-} */
-?>
-
-<div class="message">
-<?php
-if ($user_idd && $connected == TRUE) {
-		echo('Bonjour ' .  $user_idd . ' ,Bienvenue !  
-			<br> 
-			Votre rôle : <strong>' . $categorie . '</strong>');
+#session_start();
+if (isset($connected)) {
+    if ($connected == TRUE) {
+        echo "<script type=\"text/javascript\">window.alert ('Vous êtes déjà connecté'); 
+        window.location='/Front/FicheFrais2'; </script>";
+    }
 }
-else {
-			echo "<script type=\"text/javascript\">window.alert ('Vous êtes devez être connecté pour accéder à cette page'); 
-			window.location='/Front/index'; </script>";
-		}
-	
 
+/*
+if (isset($_SESSION['nom']) && isset($_SESSION['prenom'])) {
+    echo "Bonjour" . " " . $_SESSION['nom'] ." " . $_SESSION['prenom'];
+}
+ */
 ?>
-</div>
+<?php include "menu.php"; ?> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +22,6 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<?php include "menu-connectée.php"; ?> 
 <body>         <!-- Définition du style css !-->
     <style>
     @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
@@ -34,14 +29,8 @@ else {
 * {
 	box-sizing: border-box;
 	margin: 0;
-	padding: 0;		
+	padding: 0;	
 	font-family: Raleway, sans-serif;
-}
-
-.message {
-    color: white;
-    
-    text-align: center;
 }
 
 body {
@@ -50,8 +39,9 @@ body {
 
 label {
 
-    padding-left: 10px;
+    padding-left: 70px;
     margin-left: 10px;
+    font-weight: 900;
 }
 
 .container {
@@ -65,8 +55,8 @@ label {
 .screen {		
 	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
 	position: relative;	
-	height: 650px;
-	width: 450px;	
+	height: 600px;
+	width: 360px;	
 	box-shadow: 0px 0px 24px #5C5696;
     border-radius: 30px;
 }
@@ -75,8 +65,6 @@ label {
 	z-index: 1;
 	position: relative;	
 	height: 100%;
-    padding-left: 10px;
-    margin-top: 20px;
 }
 
 .screen__background {		
@@ -146,13 +134,12 @@ label {
 	border: none;
 	border-bottom: 2px solid #D1D1D4;
 	background: none;
-
+	padding: 10px;
 	padding-left: 24px;
 	font-weight: 700;
 	width: 75%;
 	transition: .2s;
-    margin-top: 13px;	
-    margin-bottom: 13px;
+    margin-top: 10px;	
 
 }
 
@@ -166,7 +153,7 @@ label {
 .login__submit {
 	background: #fff;
 	font-size: 14px;
-	margin-top: 20px;
+	margin-top: 50px;
 	padding: 16px 20px;
 	border-radius: 26px;
 	border: 1px solid #D4D3E8;
@@ -174,7 +161,7 @@ label {
 	font-weight: 700;
 	display: flex;
 	align-items: center;
-	width: 95%;
+	width: 97%;
 	color: #4C489D;
 	box-shadow: 0px 2px 2px #5C5696;
 	cursor: pointer;
@@ -216,44 +203,30 @@ label {
        
        text-align: left;
    }
+  
         </style> 
- 
+        <!-- Formulaire de connexion !-->
 
-<div class="container">
+
+
+
+
+    <div class="container">
 	<div class="screen">
 		        <div class="screen__content">
-                        
-                    <!-- Formulaire de la fiche de frais -->
+				    
+                    <!-- Formulaire de connexion -->
+                    <form action="<?php echo base_url("Back/Verif"); ?>" method="POST">
+					<div class="login__field"> 
+                        <label>Code de validation</label>
+                        <input type="number" name="codeV" class="login__input"/>
+                    </div>                  		   
+					<br>
+				        <input class="login__submit" type="submit" value="Valider">
+                        </input>
+                    </form>
 					
-                    <form action ="<?php echo base_url("Back/frais")?>" method="POST">
-                        <label for="nbr_km"> Nombre de kilomètre </label><br>
-                        <input type="text" name="nbr_km">
-
-                        <br><br>
-                      
-                        <label for="kilometrique"> Indemnités kilométriques  &emsp;</label><br>
-                        <input type="text" name="cout_km"> 
-
-                        <br><br>
-
-                        <label for="restauration"> Restauration</label><br>
-                        <input type="text" name="Restauration">
-                        <br>
-                        <br>
-
-                        <label for="hotel"> Hôtel</label><br>
-                        <input type="text" name="hôtel">
-
-                        <br><br>
-
-                        <label for="evenementiel"> Evènementiel</label><br>
-                        <input type="text" name="Evènementiel">   
-                        <br><br>     
-                        						
-                        <input class="login__submit" type="submit" value="Envoyer"> </input>
-					</form>
-	
-                    
+				
             </div>
         <!-- Définition des arrières plan superposés-->
 		<div class="screen__background"> 
