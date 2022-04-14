@@ -7,9 +7,12 @@
 <div class="message">
 <?php
 if ($user_idd && $connected == TRUE) {
-        echo('Bonjour ' .  $user_idd . ' ,Bienvenue !  ');
+		echo('Bonjour ' .  $user_idd . ' ,Bienvenue !  
+			<br> 
+			Votre rôle : <strong>' . $categorie . '</strong>');
 }
 else {
+<<<<<<< HEAD
     echo'Bonjour, vous n\'etes pas connecté';
 }
 ?>
@@ -19,6 +22,23 @@ else {
 <?php 
 include "menu.php";
 ?>
+=======
+			echo "<script type=\"text/javascript\">window.alert ('Vous êtes devez être connecté pour accéder à cette page'); 
+			window.location='/Front/index'; </script>";
+		}
+	
+
+?>
+</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<?php include "menu-connectée.php"; ?> 
+>>>>>>> master
 <body>         <!-- Définition du style css !-->
     <style>
     @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
@@ -57,7 +77,7 @@ label {
 .screen {		
 	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
 	position: relative;	
-	height: 750px;
+	height: 650px;
 	width: 450px;	
 	box-shadow: 0px 0px 24px #5C5696;
     border-radius: 30px;
@@ -217,7 +237,7 @@ label {
                         
                     <!-- Formulaire de la fiche de frais -->
 					
-                    <form action ="<?php echo base_url("Front/noteDeFrais")?>" method="POST">
+                    <form action ="<?php echo base_url("Back/frais")?>" method="POST">
                         <label for="nbr_km"> Nombre de kilomètre </label><br>
                         <input type="text" name="nbr_km">
 
@@ -244,15 +264,7 @@ label {
                         						
                         <input class="login__submit" type="submit" value="Envoyer"> </input>
 					</form>
-                        
-                        <form action="<?php echo base_url("Front/deconnection")?>">
-				        <input class="login__submit" type="submit" value="Deconnexion">
-                        </input>
-                    	</form>
-
-                    <form action="<?php echo base_url("Front/index")?>" method="POST">                  
-                        <input class="login__submit" type="submit" value="Connexion">	
-                    </form>		
+	
                     
             </div>
         <!-- Définition des arrières plan superposés-->

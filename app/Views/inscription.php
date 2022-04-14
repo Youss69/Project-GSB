@@ -1,8 +1,8 @@
 <?php
- session_start();
- if (isset($_SESSION['connecté'])) {
-    $_SESSION['connecté'] = FALSE;
-}
+ 
+ if (isset($connected)) {
+		$connected = FALSE;
+		}
  /*
 $_SESSION['nom'] = "Bonal";
 $_SESSION['prenom'] = "Côme"; */
@@ -16,7 +16,9 @@ $_SESSION['prenom'] = "Côme"; */
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>         <!-- Définition du style css !-->
+<body>  
+<?php include "menu.php"; ?> 
+	       <!-- Définition du style css !-->
     <style>
     @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
 
@@ -199,6 +201,9 @@ label {
        
        text-align: left;
    }
+   .select{
+	   margin-left: 5px;
+   }
         </style> 
  
 
@@ -215,21 +220,24 @@ label {
                         <input type="text" name="prenom" class="login__input"/>
 
                         <label>Adresse mail : </label>
-                        <input type="text" name="mail" class="login__input"/>
+                        <input type="email" name="mail" class="login__input"/>
 
                         <label>Identifiant : </label> <br>
                         <input type="text" name="identifiant" class="login__input"/> <br>
 
                         <label>Mot de passe : </label> <br>
-                        <input type="password" name="mdp" class="login__input"/>          
+                        <input type="password" name="mdp" class="login__input"/>     
+
+						<select class="login__submit select" name="categorie_utilisateur">
+							<option> Utilisateur
+							<option> Comptable
+							<option> Administrateur
+						</select>
 
 				        <input class="login__submit" type="submit" value="S'inscrire">
                         </input>
                     </form>
-                    <!-- Formulaire d'inscription -->
-                    <form action="<?php echo base_url(); ?>" method="POST">                  
-                        <input class="login__submit" type="submit" value="Connexion">	
-                    </form>		
+                    <!-- Formulaire d'inscription -->	
             </div>
         <!-- Définition des arrières plan superposés-->
 		<div class="screen__background"> 
