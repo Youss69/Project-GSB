@@ -33,6 +33,15 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+
+$routes->get('contact', 'EmailController::index', ['as' => 'contactForm']);
+            // Le nom du fichier dans l'URL : http://localhost:8080/contact
+            // Le nom de la class puis sa fonction  EmailController : index
+            // fonctionne uniquement si le fichier "index.php" n'est plus le fichier par défaut du site;
+$routes->post('/send', 'EmailController::send', ['as' => 'send.email']);
+// Ici on accède tout simplement à la fonction send() dans le controller EmailController
+// en l'appellant EmailController/send  à la place de /EmailController/send.email
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

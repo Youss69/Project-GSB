@@ -1,8 +1,4 @@
-<?php
-/*if (empty($_POST['identifiant-co'])) {
-    $_SESSION['connecté'] = FALSE;
-} */
-?>
+
 
 <div class="message">
 <?php
@@ -20,6 +16,7 @@ else {
 ?>
 </div>
 <!DOCTYPE html>
+<script src="https://unpkg.com/vue@3.2.33/dist/vue.global.js"></script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -227,30 +224,30 @@ label {
 					
                     <form action ="<?php echo base_url("Back/frais")?>" method="POST">
                         <label for="nbr_km"> Nombre de kilomètre </label><br>
-                        <input type="text" name="nbr_km">
+                        <input v-model="input" type="text" name="nbr_km">
 
                         <br><br>
                       
                         <label for="kilometrique"> Indemnités kilométriques  &emsp;</label><br>
-                        <input type="text" name="cout_km"> 
+                        <input v-model="input" type="text" name="cout_km"> 
 
                         <br><br>
 
                         <label for="restauration"> Restauration</label><br>
-                        <input type="text" name="Restauration">
+                        <input v-model="input" type="text" name="Restauration">
                         <br>
                         <br>
 
                         <label for="hotel"> Hôtel</label><br>
-                        <input type="text" name="hôtel">
+                        <input v-model="input" type="text" name="hôtel">
 
                         <br><br>
 
                         <label for="evenementiel"> Evènementiel</label><br>
-                        <input type="text" name="Evènementiel">   
+                        <input v-model="input" type="text" name="Evènementiel">   
                         <br><br>     
                         						
-                        <input class="login__submit" type="submit" value="Envoyer"> </input>
+                        <input  class="login__submit" type="submit" value="Envoyer"> </input>
 					</form>
 	
                     
@@ -262,6 +259,29 @@ label {
 			<span class="screen__background__shape screen__background__shape2"></span>
 			<span class="screen__background__shape screen__background__shape1"></span>
 		</div>		
+<!-- 
+		<script>
+			const remplirCaractère {
+				data () {
+					return {
+
+					}
+				}
+
+				methods {
+					checkEmpty () {
+						if (!this.input) {
+							erreur = true;
+						}
+					}
+					redirection() {
+						windows.location("www.google.com");
+					}
+				}
+			}
+
+			Vue.createApp(remplirCaractère).mount(#screen);
+		</script> -->
 	
 </body>
 </html>

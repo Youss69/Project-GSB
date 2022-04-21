@@ -16,9 +16,13 @@ class Back extends BaseController
         $code_a->execute(array($code_v, $_SESSION['identifiant']));
         $fetch = $code_a->fetch();
         if ($code_a->rowCount() == 1 && $fetch['code'] != 0) {
+
+            // On supprime le code d'activation de la bdd pour qu'il ne soit plus valable
             $delete = $bd->prepare('UPDATE `authentification` SET `code` = "0" WHERE `authentification`.`code` = :code');
             $delete->bindValue(':code', $code_v);
             $delete->execute();
+
+            // On active le compte grâce à une variable boolean
             $act = $bd->prepare('UPDATE `authentification` SET `Activation3` = "1" WHERE `authentification`.`identifiant` = ?');
             $act->execute(array($_SESSION['identifiant']));
             return redirect()->to("/Front/index");
@@ -86,9 +90,6 @@ class Back extends BaseController
 
             # Première méthode 
             $var_recup = GETPDO($config);
-            $var_recup_ex = $var_recup->prepare("SELECT `id`, `identifiant`, `motDePasse` FROM authentification");
-            $var_recup_ex->execute();
-            $données_verif = $var_recup_ex->fetchAll();
 
             # Deuxième méthode 
             $X = filter_var($_POST['identifiant-co'], FILTER_SANITIZE_STRING);
@@ -119,10 +120,7 @@ class Back extends BaseController
                 if($res) {
                     $passwordHash = $res['motDePasse'];
                 
-                foreach ($données_verif as $données_verif) {
-
                             if (password_verify($Y, $passwordHash)) {
-                                $fetch_activation= $recup_user->fetch();
 
                                  $res['Activation3'] = isset($res['Activation3']) ? $res['Activation3'] 
                                  : 0;
@@ -145,7 +143,6 @@ class Back extends BaseController
                                 window.location='../index.php'; </script>";
                                 $_SESSION['connecté'] = FALSE;
                             } 
-                }
             }
             else {
                 echo "<script type=\"text/javascript\">window.alert ('Identifiant et/ou Mot de passe incorrect'); 
@@ -168,7 +165,7 @@ class Back extends BaseController
             $identifiant_utilisateur = filter_var($_POST['identifiant'], FILTER_SANITIZE_STRING);
             $mdp_utilisateur = filter_var($_POST['mdp'], FILTER_SANITIZE_STRING);
             $categorie_utilisateur = filter_var($_POST['categorie_utilisateur'], FILTER_SANITIZE_STRING);
-            $random = rand(100000,999999);
+            $_SESSION['random'] = rand(100000,999999);
 
             // hachage du mot de passe
             $mdp_utilisateur = password_hash($mdp_utilisateur, PASSWORD_DEFAULT);
@@ -177,14 +174,13 @@ class Back extends BaseController
 
             include "../app/Views/config-page-accueil.php";
             $_SESSION['identifiant'] = $identifiant_utilisateur;
-            /* $_SESSION['nom'] = $nom_utilisateur;
-            $_SESSION['prenom'] = $prenom_utilisateur; */
+
 
             $connexion = GETPDO($config);
                 if (!empty($identifiant_utilisateur) AND !empty($mdp_utilisateur
                 AND !empty($nom_utilisateur) AND !empty($mail_utilisateur) AND !empty($prenom_utilisateur))){
 
-                    //  méthode 1 pour vérifier dans la bdd qu'un utilisateur ne porte pas le même identifiant 
+                    //  méthode pour vérifier dans la bdd qu'un utilisateur ne porte pas le même identifiant 
 
                     $recup_user = $connexion->prepare('SELECT * FROM authentification WHERE `identifiant` = :identifiant');
                     $recup_user->bindValue('identifiant', $identifiant_utilisateur);
@@ -193,23 +189,13 @@ class Back extends BaseController
                         return redirect()->to("/Front/erreurIdentifiant");
                     }
 
-                    //  méthode 2 pour vérifier dans la bdd qu'un utilisateur ne porte pas le même identifiant 
-
-                    $recup_user = $connexion->query('SELECT * FROM authentification ');
-                    $idUnique = $recup_user->fetchAll();
-                    foreach ($idUnique as $i) {
-                        if ($i['identifiant'] === $identifiant_utilisateur) {
-                            return redirect()->to("/Front/erreurIdentifiant");
-                        }
-                        
-                    }
                 // Insertion au sein de la table authentification
                 
                 $insérer = $connexion->prepare('INSERT INTO authentification 
                 (identifiant, motDePasse, nom, prenom, mail, categorie_utilisateur, code) VALUES (? , ? , ? , ? , ?, ?, ?)');
 
                 $insérer->execute(array($identifiant_utilisateur, $mdp_utilisateur, $nom_utilisateur, 
-                $prenom_utilisateur, $mail_utilisateur, $categorie_utilisateur, $random));
+                $prenom_utilisateur, $mail_utilisateur, $categorie_utilisateur, $_SESSION['random']));
 
                 // Insertion au sein de la table categorie_users
 
@@ -222,17 +208,9 @@ class Back extends BaseController
                 $id_bdd = $req->fetch();
 
                 $insérer2->execute(array($categorie_utilisateur, $id_bdd['id']));
-                
-                $req_admin = $connexion->prepare("SELECT mail FROM authentification WHERE categorie_utilisateur = Administrateur");
-                $to = $req_admin->fetchAll();
-                $subject = "Code de validation nouvelle inscription";
-                $message = "Bonjour, " .  $identifiant_utilisateur . " s'est récemment inscrit, veuillez lui fournir son code de vérification : " . $random;
-                mail(
-                    $to,
-                    $subject,
-                    $message,
-                );
-                return redirect()->to("/Front/code_validation/");
+       
+
+                return redirect()->to("/EmailController/envoieMail/$identifiant_utilisateur");
                 }
                 else {
                         return view("page-inscription.php");
@@ -269,6 +247,7 @@ class Back extends BaseController
 
                             
                     }
+                }
 
                     $nombre_km = isset($_POST['nbr_km']) ?$_POST['nbr_km'] : null;
                     $nombre_km = filter_var($nombre_km, FILTER_SANITIZE_STRING);
@@ -308,7 +287,7 @@ class Back extends BaseController
                             return view("FicheFrais2.php");
                         }
                         
-                    }
+                    
                 }
 
                 else {
