@@ -93,6 +93,6 @@
                 #$data = array('user_idd' => $session->get("idd"), 'connected'=> $session->get("connecté")); ?>
 				<a id="one"href="/Front/FicheFrais2">Fiche de Frais <?php # $data ?> </a></br><br></br>
 				<a id="one"href="/Front/noteDeFrais">Historique</a>					</br><br></br>
-				<?php if ($categorie != 'Utilisateur') { echo '<a id="one"href="/Front/droit">Gestion accès</a>';}
-				?>
+				<a id="one"href="/Front/comptable">Gestion Fiche Frais</a> <br><br><br>
+				<a id="one"href="/Front/droit">Gestion accès</a>					
 			</div>
