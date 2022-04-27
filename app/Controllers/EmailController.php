@@ -90,7 +90,7 @@ class EmailController extends BaseController
                     
                     }
                 
-                 
+                 session_destroy();
                 return redirect()->to("/Front/code_validation/");
             }
             else {
