@@ -64,7 +64,8 @@ if ($connected == FALSE) {
                                 <th>Restauration</th>
                                 <th>Hôtel</th>
                                 <th>Evènementiel</th>
-                                <th>Supprimer</th>
+                                <?php if ($categorie != 'Utilisateur') { echo '<th>Supprimer</th>';}
+                                ?>
                             </tr>
     <?php        
                 $_SESSION['fichefrais'] = [];
@@ -78,7 +79,7 @@ if ($connected == FALSE) {
                                 <td><?php echo $fetch20['restauration']; ?></td>
                                 <td><?php echo $fetch20['hotel']; ?></td>
                                 <td><?php echo $fetch20['evenementiel']; ?></td>
-                                <td><a id="désactivé" href=<?php echo base_url("Back/Supprimer/$compteur"); ?>>Supprimer</a></td>
+                                <?php if ($categorie != 'Utilisateur') { echo '<td><a id="désactivé" href=<?php echo base_url("Back/Supprimer/$compteur"); ?>Supprimer</a></td>';} ?>
                             </tr>
                             
                         <?php $compteur = $compteur + 1;
